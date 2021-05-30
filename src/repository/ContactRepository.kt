@@ -19,12 +19,15 @@ class ContactRepository {
 
         fun remove(contact: ContactEntity){
             //list.remove(contact)
+            var index :Int = 0
+
             for(item in list.withIndex()){
                 if(item.value.name == contact.name && item.value.phone == contact.phone){
-                    list.removeAt(item.index)
+                    index = item.index
                     break
                 }
             }
+            list.removeAt(index)
 
         }
 

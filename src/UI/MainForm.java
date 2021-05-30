@@ -4,6 +4,8 @@ import business.ContactBusiness;
 import entity.ContactEntity;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,6 +21,8 @@ public class MainForm extends JFrame{
     private JLabel labelContactCount;
 
     private ContactBusiness mContactBusiness;
+    private String mName = "";
+    private String mPhone = "";
 
     public MainForm(){
         mContactBusiness = new ContactBusiness();
@@ -34,9 +38,11 @@ public class MainForm extends JFrame{
         //fazendo com que o programa pare ao fechar a janela
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        setListener();
         loadContacts();
+        setListener();
     }
+
+
 
     private void setListener(){
         buttonNewContact.addActionListener(new ActionListener() {
@@ -48,10 +54,31 @@ public class MainForm extends JFrame{
             }
         });
 
+        tableContacts.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (e.getValueIsAdjusting()){
+                    //estava dando erro pois estava 1 e não 1- no if abaixo
+                    if(tableContacts.getSelectedRow() != -1){
+                        mName = tableContacts.getValueAt(tableContacts.getSelectedRow(), 0).toString();
+                        mPhone = tableContacts.getValueAt(tableContacts.getSelectedRow(), 1).toString();
+                    }
+
+                }
+            }
+        });
+
         buttonRemove.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                    try{
+                        mContactBusiness.remove(mName, mPhone);
+                        mName = "";
+                        mPhone = "";
+                        loadContacts();
+                    } catch (Exception exp){
+                        JOptionPane.showMessageDialog(new JFrame(), exp.getMessage());
+                    }
             }
         });
     }
@@ -72,9 +99,9 @@ public class MainForm extends JFrame{
         }
 
         tableContacts.clearSelection();
+        labelContactCount.setText(mContactBusiness.getContactCountDescription());
         tableContacts.setModel(model);
 
-        labelContactCount.setText(mContactBusiness.getContactCountDescription());
     }
 
 }
