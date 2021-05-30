@@ -1,4 +1,4 @@
-import interfaces.MainForm
+import UI.MainForm
 
 fun main(){
     MainForm()
