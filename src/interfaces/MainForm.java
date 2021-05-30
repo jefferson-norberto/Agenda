@@ -2,6 +2,8 @@ package interfaces;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MainForm extends JFrame{
 
@@ -21,6 +23,26 @@ public class MainForm extends JFrame{
 
         //fazendo com que o programa pare ao fechar a janela
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        setListener();
+    }
+
+    private void setListener(){
+        buttonNewContact.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ContactForm();
+                //fecha minha janela anterior
+                dispose();
+            }
+        });
+
+        buttonRemove.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
     }
 
 }
