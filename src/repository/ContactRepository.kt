@@ -1,3 +1,8 @@
+/**
+ * O repositorio é usado para realizar as funções de salvar/deletar/recuperar
+ * as informações, podendo ser em uma variavel ou banco de dados
+ * **/
+
 package repository
 import entity.ContactEntity
 
@@ -14,6 +19,11 @@ class ContactRepository {
 
         fun remove(contact: ContactEntity){
 
+        }
+
+        @JvmName("getListContacts")
+        fun getList(): List<ContactEntity>{
+            return list
         }
     }
 

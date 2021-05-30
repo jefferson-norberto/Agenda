@@ -1,5 +1,9 @@
-package business
+/**
+ * No business fica alocado as regras de négiocos
+ * então a validação dos dados ocorrem nessa classe
+ * **/
 
+package business
 import entity.ContactEntity
 import repository.ContactRepository
 
@@ -18,7 +22,7 @@ class ContactBusiness {
         ContactRepository.remove(contact)
     }
 
-    fun validate(name: String, phone: String){
+    private fun validate(name: String, phone: String){
         if(name == ""){
             throw Exception("Nome é obrigatório!")
 
@@ -28,9 +32,25 @@ class ContactBusiness {
         }
     }
 
-    fun validadeRemove(name: String, phone: String){
+    private fun validadeRemove(name: String, phone: String){
         if(name == "" || phone == ""){
             throw java.lang.Exception("Selecione um contato primeiro!")
         }
+    }
+
+    fun getList(): List<ContactEntity> {
+        return ContactRepository.getList()
+    }
+
+    fun getContactCountDescription(): String{
+        val list = getList()
+
+        val retorno = when{
+            list.isEmpty() -> "0 contatos"
+            list.size == 1 -> "1 contato"
+            else -> "${list.size} contatos"
+        }
+
+        return retorno
     }
 }
